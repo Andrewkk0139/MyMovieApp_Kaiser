@@ -12,11 +12,12 @@ struct SearchResult: Codable {
 }
 struct movieTitle: Codable {
     var Title: String
+   // var Year: String
 }
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
+    var titleArray: [String] = []
     
     @IBOutlet weak var titleFieldOutlet: UITextField!
     @IBOutlet weak var tableViewOutlet: UITableView!
@@ -26,6 +27,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view.
         tableViewOutlet.dataSource = self
         tableViewOutlet.delegate = self
+        
+        
     }
     
     @IBAction func lookupAction(_ sender: Any) {
@@ -35,6 +38,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func movieLook(_ title: String) {
+        titleArray.removeAll()
         print("Func running")
         // creating object of URLSession class to make api call
         let session = URLSession.shared
@@ -48,6 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     (data: Data?, response: URLResponse?, error: Error?) in
 
                     if let error = error {
+                       
                         print("Error:\n\(error)")
                     } else {
                         if let data = data {
@@ -55,19 +60,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 print(jsonObj)
                                 if let movieObj = try? JSONDecoder().decode(SearchResult.self, from: data){
                                     for t in movieObj.Search{
+                                        self.titleArray.append(t.Title)
                                         print(t.Title)
-                                        // num of rows
-                                        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-                                            return movieObj.Search.count
-                                        }
-                                        // pops each cell
-                                        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-                                            let cell = tableView.dequeueReusableCell(withIdentifier: "myCell")
-                                            cell?.textLabel?.text = "\(t.Title)"
-                                        }
+                                        //print(t.Year)
+                                        
 
                                     }
                                 }
+                                DispatchQueue.main.async {
+                                    self.tableViewOutlet.reloadData()
+                                    if jsonObj.value(forKey: "Error") != nil {
+                                        let alert = UIAlertController(title: "Error", message: "\(jsonObj.value(forKey: "Error")!)", preferredStyle: .alert)
+                                        let okAction = UIAlertAction(title: "Ok", style: .default)
+                                        alert.addAction(okAction)
+                                        self.present(alert, animated: true)
+                                    }
+                                }
+                                print("here3")
                             }
                             else {
                                 print("Error: Can't convert data to json object")
@@ -79,6 +88,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
 
                 dataTask.resume()
+    }
+    
+    // num of rows
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return titleArray.count}
+    // pops each cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myCell")
+        cell?.textLabel?.text = "\(titleArray[indexPath.row])"
+        return cell!
     }
 
 
