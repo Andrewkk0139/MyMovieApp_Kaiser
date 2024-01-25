@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BA83E692B61609D00663ACC /* infoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA83E682B61609D00663ACC /* infoViewController.swift */; };
 		3BCCA7972B5EC44B00B5358F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCCA7962B5EC44B00B5358F /* AppDelegate.swift */; };
 		3BCCA7992B5EC44B00B5358F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCCA7982B5EC44B00B5358F /* SceneDelegate.swift */; };
 		3BCCA79B2B5EC44B00B5358F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCCA79A2B5EC44B00B5358F /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3BA83E682B61609D00663ACC /* infoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = infoViewController.swift; sourceTree = "<group>"; };
 		3BCCA7932B5EC44B00B5358F /* MyMovieApp_Kaiser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMovieApp_Kaiser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BCCA7962B5EC44B00B5358F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BCCA7982B5EC44B00B5358F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				3BCCA7962B5EC44B00B5358F /* AppDelegate.swift */,
 				3BCCA7982B5EC44B00B5358F /* SceneDelegate.swift */,
+				3BA83E682B61609D00663ACC /* infoViewController.swift */,
 				3BCCA79A2B5EC44B00B5358F /* ViewController.swift */,
 				3BCCA79C2B5EC44B00B5358F /* Main.storyboard */,
 				3BCCA79F2B5EC44D00B5358F /* Assets.xcassets */,
@@ -260,6 +263,7 @@
 			files = (
 				3BCCA79B2B5EC44B00B5358F /* ViewController.swift in Sources */,
 				3BCCA7972B5EC44B00B5358F /* AppDelegate.swift in Sources */,
+				3BA83E692B61609D00663ACC /* infoViewController.swift in Sources */,
 				3BCCA7992B5EC44B00B5358F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

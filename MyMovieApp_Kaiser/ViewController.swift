@@ -7,12 +7,19 @@
 
 import UIKit
 
+struct AppData {
+    static var Title = ""
+    static var Year = 0
+    static var Actors = ""
+    static var Awards = ""
+}
+
 struct SearchResult: Codable {
     var Search: [movieTitle]
 }
 struct movieTitle: Codable {
     var Title: String
-   // var Year: String
+    //var Year: String
 }
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -76,7 +83,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                         self.present(alert, animated: true)
                                     }
                                 }
-                                print("here3")
                             }
                             else {
                                 print("Error: Can't convert data to json object")
@@ -90,6 +96,39 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 dataTask.resume()
     }
     
+    
+    func movieInfo(_ title: String){
+        print("yurt")
+        let session = URLSession.shared
+        let weatherURL = URL(string: "http://www.omdbapi.com/?apikey=f61dccf3&t=\(title)")!
+        
+        let dataTask = session.dataTask(with: weatherURL) {
+            // completion handler: happens on a different thread, could take time to get data
+            (data: Data?, response: URLResponse?, error: Error?) in
+
+            if let error = error {
+               
+                print("Error:\n\(error)")
+            } else {
+                if let data = data {
+                    if let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary {
+                        print(jsonObj)
+                        if let Title = jsonObj.value(forKey: "Title"){AppData.Title = "\(Title)"}
+                        if let Year = jsonObj.value(forKey: "Year") {AppData.Year = Year as! Int}
+                        if let Actors = jsonObj.value(forKey: "Actors"){AppData.Actors = "\(Actors)"}
+                        if let Awards = jsonObj.value(forKey: "Award"){AppData.Awards = "\(Awards)"}
+                    }
+                    else {
+                        print("Error: Can't convert data to json object")
+                    }
+                }else {
+                    print("Error: did not receive data")
+                }
+            }
+        }
+        dataTask.resume()
+    }
+    
     // num of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titleArray.count}
@@ -98,6 +137,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell")
         cell?.textLabel?.text = "\(titleArray[indexPath.row])"
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)!
+        let getText = cell.textLabel!.text!
+        movieInfo(getText)
+        performSegue(withIdentifier: "toInfo", sender: self)
     }
 
 
